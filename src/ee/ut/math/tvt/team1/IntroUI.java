@@ -13,11 +13,10 @@ import javax.swing.JPanel;
 //Class for team intro UI
 public class IntroUI {
 	//Components for the UI
-	String team_name;
-	String team_leader;
-	String leader_email;
+	String team_name, team_leader, leader_email;
 	String[] members;
 	ImageIcon logo;
+	String version;
 	
 	public IntroUI(Properties prop) {
 		//Assign the info to the required variables
@@ -27,6 +26,8 @@ public class IntroUI {
 		members = prop.getProperty("teamMembers").split(",");
 		
 		logo = new ImageIcon("smiley.jpg");
+		
+		version = prop.getProperty("build.number");
 	}
 	
 	//Creates the UI
@@ -40,6 +41,7 @@ public class IntroUI {
 		JLabel lName = new JLabel("Team name: " + team_name);
 		JLabel lLeader = new JLabel("Team leader: " + team_leader);
 		JLabel lEmail = new JLabel("Leader's email: " + leader_email);
+		JLabel lVersion = new JLabel("Version: " + version);
 		JLabel picture = new JLabel("", logo, JLabel.CENTER);
 		
 		left_panel.setBackground(Color.white);
@@ -52,6 +54,7 @@ public class IntroUI {
 		for (int i = 0; i < members.length; i++) {
 			left_panel.add(new JLabel("Member" + (i+1) + ": " + members[i]));
 		}
+		left_panel.add(lVersion);
 		right_panel.add(picture);
 		
 		big_panel.add(left_panel, BorderLayout.WEST);

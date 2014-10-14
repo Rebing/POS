@@ -14,6 +14,9 @@ public class Intro {
 			InputStream in = new FileInputStream("application.properties");
 			prop.load(in);
 			
+			in = new FileInputStream("version.properties");
+			prop.load(in);
+			
 			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
