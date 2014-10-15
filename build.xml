@@ -31,8 +31,9 @@
 
 	<!-- Definitions of runnable ant targets.-->
 
-	<target name="run" depends="build" description="Run the template application">
+	<target name="run" depends="build" description="Run the template application (console)">
 		<java classname="ee.ut.math.tvt.team1.Intro" classpathref="test.classpath" fork="yes" />
+		<arg value = ""/>
 	</target>
 
 	<target name="build" description="Build the system">
@@ -90,6 +91,40 @@
             </classpath>
         </java>
 	</target>
+	
 
+	<!-- git target-->
+	<target name = "git_commit">
+		<input
+			message = "Please enter github USERNAME"
+			addproperty="git_username"/>
+		<input
+			message = "Please enter github PASSWORD"
+			addproperty="git_password"/>
+		<input
+			message = "Type your commitment comment"
+			addproperty="git_commitment_message"/>
+		<input
+			message = "Type your repository url. example: 'saarharri/POS.git' "
+			addproperty="git_repo_url"/>
+
+		<echo>DOING: git add -A</echo>
+		<exec executable="git.exe" >
+			<arg line="add -A"/>
+		</exec>
+		
+		<echo>DOING: git commit -m ${git_commitment_message}</echo>
+		<exec executable="git.exe">
+			<arg line="commit -m '${git_commitment_message}'"/>
+		</exec>
+		
+		<echo>DOING: git push ${git_repo_url}</echo>
+		<exec executable="git.exe">
+			<arg line="push https://${git_username}:${git_password}@github.com/${git_repo_url}"/>
+		</exec>
+		
+		<echo>done!</echo>
+	</target>
+	
 </project>
 
