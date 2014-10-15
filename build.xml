@@ -75,6 +75,10 @@
 		<fileset dir="${src}/version.properties"/>
 		<fileset dir="${src}/smiley.jpg"/>
 		<fileset dir="${src}/lib/log4j-1.2.17.jar"/>
+		<propertyfile file = "version.properties" comment = " increment revision">
+			<entry key = "build.revision.number" type = "int" operation ="+" value = "1"/>
+		</propertyfile>
+		
 	</target>
 	
 	<!-- Run .jar file -->
