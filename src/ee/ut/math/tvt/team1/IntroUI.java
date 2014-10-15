@@ -27,7 +27,11 @@ public class IntroUI {
 		
 		logo = new ImageIcon("smiley.jpg");
 		
-		version = prop.getProperty("build.number");
+		String minor = prop.getProperty("build.minor.number");
+		String major = prop.getProperty("build.major.number");
+		String revision = prop.getProperty("build.revision.number");
+
+		version = minor + "."  + major + "." + revision;
 	}
 	
 	//Creates the UI
