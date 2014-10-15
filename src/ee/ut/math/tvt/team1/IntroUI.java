@@ -2,7 +2,10 @@ package ee.ut.math.tvt.team1;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.util.Properties;
 
 import javax.swing.ImageIcon;
@@ -11,12 +14,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 //Class for team intro UI
-public class IntroUI {
+public class IntroUI{
 	//Components for the UI
 	String team_name, team_leader, leader_email;
 	String[] members;
 	ImageIcon logo;
 	String version;
+
+	//The general frame for later referencing as well
+	JFrame frame = new JFrame("Intro");
 	
 	public IntroUI(Properties prop) {
 		//Assign the info to the required variables
@@ -36,8 +42,6 @@ public class IntroUI {
 	
 	//Creates the UI
 	public void init() {
-		JFrame frame = new JFrame("Intro");
-		
 		JPanel big_panel = new JPanel(new BorderLayout());
 		JPanel left_panel = new JPanel(new GridLayout(0, 1));
 		JPanel right_panel = new JPanel(new BorderLayout());
@@ -68,7 +72,15 @@ public class IntroUI {
 		frame.getContentPane().add(big_panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setLocation(300, 300);
+        
+        //Sets the frame in the middle of the screen
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Point middle = new Point(screenSize.width / 2, screenSize.height / 2);
+        Point newLocation = new Point(middle.x - (frame.getWidth() / 2), 
+                                      middle.y - (frame.getHeight() / 2));
+        frame.setLocation(newLocation);
+        
+        frame.setAlwaysOnTop(true);
 		frame.setVisible(true);
 	}
 
