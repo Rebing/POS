@@ -132,5 +132,25 @@
 		<echo>done!</echo>
 	</target>
 	
+	<!-- git target tag -->
+	
+	<!-- kas peab tapsustama kuhu tag laheb -->
+	
+	<target name = "git_tag">
+		<input
+			message = " Enter tag name "
+			addproperty="tag_name" />
+		<input 
+			message ="Enter tag comment:"
+			addproperty="tag_comment"/>
+		<exec executable="git.exe"> 
+			<arg line = "tag -a ${tag_name} -m '${tag_comment}'"/>
+		</exec>
+		<exec executable="git.exe"> 
+			<arg line = "push --tags"/>
+		</exec>
+		<echo> Done! </echo>
+	</target>
+	
 </project>
 
