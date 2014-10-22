@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="jars/jgoodies-looks-2.6.0-tests.jar"/>
 	<classpathentry kind="lib" path="jars/jgoodies-looks-2.6.0.jar"/>
 	<classpathentry kind="lib" path="jars/log4j.jar"/>
+	<classpathentry kind="lib" path="jars/jgoodies-windows.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
