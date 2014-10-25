@@ -1,7 +1,5 @@
 package ee.ut.math.tvt.salessystem.domain.data;
 
-
-
 /**
  * Already bought StockItem. SoldItem duplicates name and price for preserving history. 
  */
@@ -19,7 +17,6 @@ public class SoldItem implements Cloneable, DisplayableItem {
         this.name = stockItem.getName();
         this.price = stockItem.getPrice();
         this.quantity = quantity;
-        
     }
     
     

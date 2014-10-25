@@ -52,6 +52,29 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 		}
 		fireTableDataChanged();
 	}
+	
+	/**
+	 * Remove a quantity of a certain item from stock. If the removable quantity
+	 * is greater than what is currently in stock, "false" will be returned.
+	 */
+	public boolean removeItem(final StockItem stockItem, int quantity) {
+		try {
+			StockItem item = getItemById(stockItem.getId());
+			int change = item.getQuantity() - quantity;
+			if(change >= 0) {
+				item.setQuantity(change);
+				fireTableDataChanged();
+				log.debug("Decreased quantity of " + stockItem.getName()
+						+ " to " + change);
+				return true;
+			} else {
+				return false;
+			}
+		}
+		catch (NoSuchElementException e) {
+			return false;
+		}
+	}
 
 	@Override
 	public String toString() {

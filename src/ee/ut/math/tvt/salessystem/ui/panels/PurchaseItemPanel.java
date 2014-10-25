@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -33,7 +34,7 @@ public class PurchaseItemPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
     // Text field on the dialogPane
-    private JComboBox barCodeField;
+    private JComboBox<String> barCodeField;
     private JTextField quantityField;
     private JTextField nameField;
     private JTextField priceField;
@@ -87,7 +88,7 @@ public class PurchaseItemPanel extends JPanel {
         panel.setBorder(BorderFactory.createTitledBorder("Product"));
         
         // Initialize the textfields
-        barCodeField = new JComboBox();
+        barCodeField = new JComboBox<String>();
         quantityField = new JTextField("1");
         nameField = new JTextField();
         priceField = new JTextField();
@@ -181,8 +182,17 @@ public class PurchaseItemPanel extends JPanel {
             } catch (NumberFormatException ex) {
                 quantity = 1;
             }
-            model.getCurrentPurchaseTableModel()
-                .addItem(new SoldItem(stockItem, quantity));
+            //Try to remove the quantity of that item from warehouse and display an
+            //error if it's not possible
+            boolean goodQuantity = model.getWarehouseTableModel().removeItem(stockItem, quantity);
+            if(goodQuantity) {
+            	model.getCurrentPurchaseTableModel()
+                	.addItem(new SoldItem(stockItem, quantity));
+            }
+            else {
+            	JOptionPane.showMessageDialog(this, "Not enough of " + stockItem.getName() + " in warehouse",
+            			"Item not available", JOptionPane.WARNING_MESSAGE);
+            }
         }
     }
 
