@@ -22,7 +22,7 @@ public class IntroUI{
 	String version;
 
 	//The general frame for later referencing as well
-	JFrame frame = new JFrame("Intro");
+	public JFrame frame = new JFrame("Intro");
 	
 	public IntroUI(Properties prop) {
 		//Assign the info to the required variables
