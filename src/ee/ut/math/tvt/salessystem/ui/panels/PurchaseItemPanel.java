@@ -197,7 +197,6 @@ public class PurchaseItemPanel extends JPanel {
             	JOptionPane.showMessageDialog(this, "Not enough of " + stockItem.getName() + " in warehouse",
             			"Item not available", JOptionPane.WARNING_MESSAGE);
             }
-            System.out.println("tableQ: " + tableQuantity + ", stockQ: " + stockItem.getQuantity() + ", qu: " + quantity);
         }
     }
 
