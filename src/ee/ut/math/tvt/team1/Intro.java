@@ -28,6 +28,7 @@ public class Intro {
 		
 		Properties prop = new Properties();
 		
+		
 		//Gets the application properties file
 		try {
 			InputStream in = new FileInputStream("application.properties");
