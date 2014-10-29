@@ -32,7 +32,15 @@
 	<!-- Definitions of runnable ant targets.-->
 
 	<target name="run" depends="build" description="Run the template application (console)">
-		<java classname="ee.ut.math.tvt.team1.Intro" classpathref="test.classpath" fork="yes" />
+		<java 
+			classname="ee.ut.math.tvt.team1.Intro" 
+			classpathref="test.classpath" 
+			fork="yes" >
+			
+	          <jvmarg value="-Xdebug" />
+	          <jvmarg value="-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=1044" />
+		</java>
+		
 		<arg value = ""/>
 	</target>
 	
