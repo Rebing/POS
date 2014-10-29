@@ -1,12 +1,5 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
-import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
-import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
-import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
-import ee.ut.math.tvt.salessystem.ui.panels.ConfirmationPanel;
-import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
-
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -16,13 +9,23 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.OutputStreamWriter;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+
+import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
+import ee.ut.math.tvt.salessystem.domain.data.Order;
+import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
+import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.ui.panels.ConfirmationPanel;
+import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
@@ -31,6 +34,7 @@ import org.apache.log4j.Logger;
 public class PurchaseTab {
 
   private static final Logger log = Logger.getLogger(PurchaseTab.class);
+  
 
   private final SalesDomainController domainController;
 
@@ -50,6 +54,12 @@ public class PurchaseTab {
   {
     this.domainController = controller;
     this.model = model;
+    
+    
+	ConsoleAppender ca = new ConsoleAppender();
+	ca.setWriter(new OutputStreamWriter(System.out));
+	ca.setLayout(new PatternLayout("%d{yyyy-MM-dd HH:mm:ss} %c{1} - %m%n"));
+	log.addAppender(ca);
   }
 
 
@@ -195,9 +205,14 @@ public class PurchaseTab {
     log.info("Sale complete");
     try {
       log.debug("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel());
-      domainController.submitCurrentPurchase(
-          model.getCurrentPurchaseTableModel().getTableRows()
-      );
+      
+ 
+      // ma ei kasuta seda.
+      domainController.submitCurrentPurchase( model.getCurrentPurchaseTableModel().getTableRows());
+      
+      /// SEE LOOB HISTORY TABLE REA
+      Order.saveOrder(model);
+      
       endSale();
       model.getCurrentPurchaseTableModel().clear();
     } catch (VerificationFailedException e1) {
