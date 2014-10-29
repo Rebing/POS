@@ -36,21 +36,25 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 	/**
 	 * Add new stock item to table. If there already is a stock item with
 	 * same id, then existing item's quantity will be increased.
+	 * Will return true if new item is created. Otherwise will return false.
 	 * @param stockItem
 	 */
-	public void addItem(final StockItem stockItem) {
+	public boolean addItem(final StockItem stockItem) {
 		try {
 			StockItem item = getItemById(stockItem.getId());
 			item.setQuantity(item.getQuantity() + stockItem.getQuantity());
 			log.debug("Found existing item " + stockItem.getName()
 					+ " increased quantity by " + stockItem.getQuantity());
+			fireTableDataChanged();
+			return false;
 		}
 		catch (NoSuchElementException e) {
 			rows.add(stockItem);
 			log.debug("Added " + stockItem.getName()
 					+ " quantity of " + stockItem.getQuantity());
+			fireTableDataChanged();
+			return true;
 		}
-		fireTableDataChanged();
 	}
 	
 	/**
