@@ -22,6 +22,7 @@ import org.apache.log4j.PatternLayout;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.Order;
+import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.ConfirmationPanel;
@@ -206,11 +207,15 @@ public class PurchaseTab {
     try {
       log.debug("Contents of the current basket:\n" + model.getCurrentPurchaseTableModel());
       
- 
-      // ma ei kasuta seda.
       domainController.submitCurrentPurchase( model.getCurrentPurchaseTableModel().getTableRows());
       
-      /// SEE LOOB HISTORY TABLE REA
+      for (SoldItem item : model.getCurrentPurchaseTableModel().getTableRows()) {
+    	  if (!model.getWarehouseTableModel().removeItem(model.getWarehouseTableModel().getItemByName(item.getName()), item.getQuantity())) {
+    		  throw new VerificationFailedException("Not enough items in warehouse");
+    	  }
+      }
+      
+      // Save order to history
       Order.saveOrder(model);
       
       endSale();

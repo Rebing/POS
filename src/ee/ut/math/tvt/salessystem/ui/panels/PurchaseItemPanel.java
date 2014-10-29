@@ -189,7 +189,7 @@ public class PurchaseItemPanel extends JPanel {
             		tableQuantity += item.getQuantity();
             	}
             }
-            if(quantity < (stockItem.getQuantity() - tableQuantity)) {
+            if(quantity <= (stockItem.getQuantity() - tableQuantity)) {
             	model.getCurrentPurchaseTableModel()
                 	.addItem(new SoldItem(stockItem, quantity));
             }
