@@ -60,6 +60,10 @@ public class PurchaseItemPanel extends JPanel {
 
         setEnabled(false);
     }
+    
+    public void addItemToNameField(StockItem item) {
+    	nameField.addItem(item.getName());
+    }
 
     // shopping cart pane
     private JComponent drawBasketPane() {

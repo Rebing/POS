@@ -1,5 +1,6 @@
 package ee.ut.math.tvt.salessystem.ui.tabs;
 
+import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
@@ -274,6 +275,10 @@ public class PurchaseTab {
     gc.gridwidth = GridBagConstraints.RELATIVE;
 
     return gc;
+  }
+  
+  public void addItemToNameField(StockItem item) {
+	  purchasePane.addItemToNameField(item);
   }
 
 }

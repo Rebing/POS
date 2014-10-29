@@ -19,6 +19,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -38,9 +39,11 @@ public class StockTab {
   private JTextField priceField;
   private JTextField quantityField;
   private SalesSystemModel model;
+  private PurchaseTab purchaseTab;
   
-  public StockTab(SalesSystemModel model) {
+  public StockTab(SalesSystemModel model, PurchaseTab purchaseTab) {
     this.model = model;
+    this.purchaseTab = purchaseTab;
   }
 
   // warehouse stock tab - consists of a menu and a table
@@ -144,8 +147,7 @@ public class StockTab {
 	OkButton.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e)
 	    {
-	       frame.dispose();
-	       addingConfirmed();
+	       addingConfirmed(frame);
 	    }
 	});
 	panel.add(OkButton);
@@ -167,16 +169,23 @@ public class StockTab {
 
  }
 
- public void addingConfirmed() {
+ public void addingConfirmed(JFrame frame) {
 	 
-	 
-	 long id = Long.parseLong(idField.getText());
-	 String name = nameField.getText();
-	 String description = descriptionField.getText();
-	 double price = Double.parseDouble(priceField.getText());
-	 int quanity = Integer.parseInt(quantityField.getText());
-	 StockItem item = new StockItem(id, name, description, price, quanity);
-	 
+	 try {
+		 long id = Long.parseLong(idField.getText());
+		 String name = nameField.getText();
+		 String description = descriptionField.getText();
+		 double price = Double.parseDouble(priceField.getText());
+		 int quanity = Integer.parseInt(quantityField.getText());
+		 StockItem item = new StockItem(id, name, description, price, quanity);
+		 model.getWarehouseTableModel().addItem(item);
+		 purchaseTab.addItemToNameField(item);
+		 frame.dispose();
+	 }
+	 catch (NumberFormatException e) {
+		 JOptionPane.showMessageDialog(frame, "Id, quantity and price must be numbers.",
+     			"Invalid entry", JOptionPane.WARNING_MESSAGE);
+	 }
  }
  
 
