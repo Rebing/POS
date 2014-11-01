@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 //Class for team intro UI
-public class IntroUI{
+public class IntroUI extends JFrame{
 	//Components for the UI
 	String team_name, team_leader, leader_email;
 	String[] members;
@@ -22,7 +22,7 @@ public class IntroUI{
 	String version;
 
 	//The general frame for later referencing as well
-	public JFrame frame = new JFrame("Intro");
+	//public JFrame frame = new JFrame("Intro");
 	
 	public IntroUI(Properties prop) {
 		//Assign the info to the required variables
@@ -69,19 +69,19 @@ public class IntroUI{
 		big_panel.add(right_panel, BorderLayout.CENTER);
 		
 		//Add the panels to the frame and display the frame
-		frame.getContentPane().add(big_panel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
+		this.getContentPane().add(big_panel);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.pack();
         
         //Sets the frame in the middle of the screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Point middle = new Point(screenSize.width / 2, screenSize.height / 2);
-        Point newLocation = new Point(middle.x - (frame.getWidth() / 2), 
-                                      middle.y - (frame.getHeight() / 2));
-        frame.setLocation(newLocation);
+        Point newLocation = new Point(middle.x - (this.getWidth() / 2), 
+                                      middle.y - (this.getHeight() / 2));
+        this.setLocation(newLocation);
         
-        frame.setAlwaysOnTop(true);
-		frame.setVisible(true);
+        this.setAlwaysOnTop(true);
+		this.setVisible(true);
 	}
 
 }

@@ -54,18 +54,18 @@ public class Intro {
 			IntroUI introUI = new IntroUI(prop);
 			introUI.init();
 			
-			log.info("Intro window is opened");
+			//log.info("Intro window is opened");
 
 			final SalesSystemUI ui = new SalesSystemUI(domainController);
 			ui.setVisible(true);
 
-			introUI.frame.setAlwaysOnTop(false);
+			introUI.setAlwaysOnTop(false);
 			try {
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			introUI.frame.setVisible(false);
+			introUI.setVisible(false);
 		}
 		
 	}

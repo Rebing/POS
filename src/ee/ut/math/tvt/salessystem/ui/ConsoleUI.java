@@ -10,10 +10,9 @@ import java.util.NoSuchElementException;
 import org.apache.log4j.Logger;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
-import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
-
 import ee.ut.math.tvt.salessystem.domain.data.SoldItem;
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 
 /**
  * A simple CLI (limited functionality).
@@ -106,10 +105,12 @@ public class ConsoleUI {
 
 		if (c[0].equals("h"))
 			printUsage();
-		else if (c[0].equals("q"))
-			System.exit(0);
 		else if (c[0].equals("w"))
 			showStock(warehouse);
+		else if (c[0].equals("q")) {
+			dc.endSession();
+			System.exit(0);
+		}
 		else if (c[0].equals("c"))
 			showStock(cart);
 		else if (c[0].equals("p"))
@@ -130,12 +131,21 @@ public class ConsoleUI {
 			} catch (VerificationFailedException e) {
 				log.error(e.getMessage());
 			}
+		//NB! Initial code here for changing item quantity was:
+		//item.setQuantity(Math.min(amount, item.getQuantity()));
+		//No idea why...
 		else if (c[0].equals("a") && c.length == 3) {
 			int idx = Integer.parseInt(c[1]);
 			int amount = Integer.parseInt(c[2]);
 			StockItem item = getStockItemById(idx);
-			item.setQuantity(Math.min(amount, item.getQuantity()));
-			cart.add(item);
+			int oldQuantity = item.getQuantity();
+			if (oldQuantity - amount >= 0) {
+				item.setQuantity(oldQuantity - amount);
+				cart.add(item);
+			} 
+			else {
+				log.error("Not enough of " + item.getName());
+			}
 		}
 	}
 	
