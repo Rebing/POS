@@ -60,7 +60,7 @@
 	<target name="run" depends="build" description="Run the template application (console)">
 		<java 
 			classname="ee.ut.math.tvt.team1.Intro" 
-			classpathref="test.classpath" 
+			classpathref="run.classpath" 
 			fork="yes" >
 			
 	          <jvmarg value="-Xdebug" />
