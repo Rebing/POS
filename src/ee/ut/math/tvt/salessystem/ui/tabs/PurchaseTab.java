@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.hibernate.Session;
 
 import ee.ut.math.tvt.salessystem.domain.controller.SalesDomainController;
 import ee.ut.math.tvt.salessystem.domain.data.Order;
@@ -28,6 +29,7 @@ import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 import ee.ut.math.tvt.salessystem.ui.panels.ConfirmationPanel;
 import ee.ut.math.tvt.salessystem.ui.panels.PurchaseItemPanel;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
@@ -218,6 +220,7 @@ public class PurchaseTab {
       
       // Save order to history
       Order.saveOrder(model);
+      Order.getNewOrderId();
       
       endSale();
       model.getCurrentPurchaseTableModel().clear();

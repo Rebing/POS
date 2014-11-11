@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 /**
  * Already bought StockItem. SoldItem duplicates name and price for preserving history. 
@@ -19,23 +18,30 @@ public class SoldItem implements Cloneable, DisplayableItem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@Transient
-    private StockItem stockItem;
+	@Column(name = "stockitem_id")
+    private Long stockItemId;
+	
+	@Column(name = "sale_id")
+    private Long orderId;
     
     @Column(name = "name")
     private String name;
     
     @Column(name = "quantity")
-    private Integer quantity;
+    private int quantity;
     
     @Column(name = "itemprice")
     private double price;
     
     public SoldItem(StockItem stockItem, int quantity) {
-        this.stockItem = stockItem;
+        this.stockItemId = stockItem.getId();
         this.name = stockItem.getName();
         this.price = stockItem.getPrice();
         this.quantity = quantity;
+        this.orderId = Order.getCurrentOrderId();
+    }
+    
+    public SoldItem() {
     }
     
     
@@ -75,12 +81,20 @@ public class SoldItem implements Cloneable, DisplayableItem {
         return price * ((double) quantity);
     }
 
-    public StockItem getStockItem() {
-        return stockItem;
+    public Long getStockItemId() {
+        return stockItemId;
     }
 
-    public void setStockItem(StockItem stockItem) {
-        this.stockItem = stockItem;
+    public void setStockItemId(Long stockItemId) {
+        this.stockItemId = stockItemId;
+    }
+    
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
     
 }

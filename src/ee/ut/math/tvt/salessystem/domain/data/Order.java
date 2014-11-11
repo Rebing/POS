@@ -2,6 +2,7 @@ package ee.ut.math.tvt.salessystem.domain.data;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,32 +14,39 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.Session;
+
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
+import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 @Entity
-@Table(name = "SOLDITEM")
+@Table(name = "ORDER")
 public class Order implements DisplayableItem{
 	
+	private static Long newId = (long) 1;
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
     private Long id;
     
     @Column(name = "date")
-	String date;
+    private String date;
     
     @Column(name = "time")
-	String time;
+    private String time;
     
     @Column(name = "price")
-	double total_price;
+    private double total_price;
     
-	List<SoldItem> soldItems;
+    @Transient
+	private List<SoldItem> soldItems;
 	
 	public Order(){
-		
+		soldItems = new ArrayList<SoldItem>();
 	}
 	
-	public Order(List<SoldItem> soldItems){
+	public Order(List<SoldItem> soldItems, Long id){
+		this.id = id;
 		this.soldItems = soldItems;
 		total_price = Order.calculateTotalPrice(soldItems);
 		date = currentDate();
@@ -65,10 +73,19 @@ public class Order implements DisplayableItem{
 		Order order = Order.createOrder(soldItems);
 		
 		model.getOrderTableModel().addOrderAndRefresh(order);
+		
+		Session session = HibernateUtil.currentSession();
+	    session.beginTransaction();
+	    session.save(order);
+	    
+	    for(SoldItem item : soldItems) {
+	    	session.save(item);
+	    }
+	    session.getTransaction().commit();
 	}
 	
 	private static Order createOrder(List<SoldItem> soldItems){
-		return new Order(soldItems);
+		return new Order(soldItems, newId);
 	}
 	
 	private static double calculateTotalPrice(List<SoldItem> soldItems){
@@ -83,8 +100,11 @@ public class Order implements DisplayableItem{
 
 	@Override
 	public Long getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return id;
+	}
+	
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	@Override
@@ -120,10 +140,21 @@ public class Order implements DisplayableItem{
 	public List<SoldItem> getSoldItems() {
 		return soldItems;
 	}
+	
+	public void addSoldItem(SoldItem item) {
+		soldItems.add(item);
+	}
 
 	public void setSoldItems(List<SoldItem> soldItems) {
 		this.soldItems = soldItems;
 	}
 
+	public static Long getCurrentOrderId() {
+		return newId;
+	}
 	
+	public static Long getNewOrderId() {
+		newId++;
+		return newId;
+	}
 }
