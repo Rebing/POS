@@ -138,8 +138,8 @@ public class StockTab {
 	panel.add(new JLabel("Price: "));
 	panel.add(priceField);
 
-	// Quanitymount
-	panel.add(new JLabel("Quanity: "));
+	// Quantity
+	panel.add(new JLabel("Quantity: "));
 	panel.add(quantityField);
 		
 	//OK button
@@ -190,7 +190,7 @@ public class StockTab {
  }
  
 
-  // table of the wareshouse stock
+  // table of the warehouse stock
   private Component drawStockMainPane() {
     JPanel panel = new JPanel();
 
