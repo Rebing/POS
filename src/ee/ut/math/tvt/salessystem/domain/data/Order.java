@@ -5,13 +5,33 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
+@Entity
+@Table(name = "SOLDITEM")
 public class Order implements DisplayableItem{
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(name = "date")
 	String date;
+    
+    @Column(name = "time")
 	String time;
+    
+    @Column(name = "price")
 	double total_price;
+    
 	List<SoldItem> soldItems;
 	
 	public Order(){

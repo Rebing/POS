@@ -18,7 +18,7 @@ import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 /**
  * Encapsulates everything that has to do with the purchase tab (the tab
- * labelled "History" in the menu).
+ * labeled "History" in the menu).
  */
 public class HistoryTab {
     
@@ -56,7 +56,7 @@ public class HistoryTab {
     
         JTable table = new JTable(model.getOrderTableModel());
         
-        // could to smaller etc.. dont want to spend time at the moment
+        // could to smaller etc.. don't want to spend time at the moment
         table.addMouseListener(new OrderTableMouseListener(table,model.getOrderTableModel()));
 
         JTableHeader header = table.getTableHeader();
