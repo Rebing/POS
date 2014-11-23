@@ -16,7 +16,6 @@ import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 
 import ee.ut.math.tvt.salessystem.domain.data.Order;
-import ee.ut.math.tvt.salessystem.ui.panels.ConfirmationPanel;
 
 public class OrderTableMouseListener implements MouseListener {
 
