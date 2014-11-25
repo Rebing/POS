@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.OrderTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
 
@@ -24,9 +25,9 @@ public class StockTableModelTest {
 	@Test
 	public void testValidateNameUniqueness() {
 		StockTableModel model = new StockTableModel();
-		model.addItem(item1, false);
 		boolean hasProblem = false;
 		try {
+			model.addItem(item1, false);
 			model.addItem(new StockItem(new Long(5), "Arbuus", "", 10.0, 5), false);
 		}
 		catch (Exception e) {
@@ -37,18 +38,17 @@ public class StockTableModelTest {
 		}
 	}
 	
-	// TODO
 	public void testHasEnoughInStock() {
+		// It is not possible to implement this method with logic we have at the moment.
+	}
+	
+	@Test
+	public void testGetItemByIdWhenItemExists() throws VerificationFailedException {
 		
 	}
 	
-	// TODO
-	public void testGetItemByIdWhenItemExists() {
-		
-	}
-	
-	// TODO
-	public void testGetItemByIdWhenThrowsException() {
+	@Test
+	public void testGetItemByIdWhenThrowsException() throws VerificationFailedException {
 		
 	}
 }
