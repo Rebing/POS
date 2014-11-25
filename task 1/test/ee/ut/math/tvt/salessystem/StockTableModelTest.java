@@ -1,6 +1,7 @@
 package ee.ut.math.tvt.salessystem;
 
 import static org.junit.Assert.fail;
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import ee.ut.math.tvt.salessystem.domain.data.StockItem;
 import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.OrderTableModel;
 import ee.ut.math.tvt.salessystem.ui.model.StockTableModel;
+import java.util.NoSuchElementException;
 
 public class StockTableModelTest {
 	private StockItem item1;
@@ -44,11 +46,23 @@ public class StockTableModelTest {
 	
 	@Test
 	public void testGetItemByIdWhenItemExists() throws VerificationFailedException {
-		
-	}
+			StockTableModel model = new StockTableModel();
+			try {
+				model.addItem(item2, false);
+				Assert.assertEquals(model.getItemById(2), item2);
+			} catch (VerificationFailedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
 	
-	@Test
-	public void testGetItemByIdWhenThrowsException() throws VerificationFailedException {
-		
+	
+
+	@Test(expected=NoSuchElementException.class)
+	public void testGetItemByIdWhenThrowsException() {
+		StockTableModel model = new StockTableModel ();
+		model.getItemById(8);
 	}
+
 }
