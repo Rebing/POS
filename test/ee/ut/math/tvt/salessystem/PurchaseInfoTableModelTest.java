@@ -50,8 +50,6 @@ public class PurchaseInfoTableModelTest {
 		}
 	}
 	
-	// Jatsime selle vea meelega parandamata, et moni test ebaonnestuks ka.
-	// Lisaks oli huvitav naha, et testide tegemisest oli ka kasu :)
 	@Test
 	public void testAddItemWithZeroQuantity() {
 		PurchaseInfoTableModel model = new PurchaseInfoTableModel();
