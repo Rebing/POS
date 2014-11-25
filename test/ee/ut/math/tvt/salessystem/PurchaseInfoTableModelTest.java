@@ -50,6 +50,17 @@ public class PurchaseInfoTableModelTest {
 		}
 	}
 	
+	// Jatsime selle vea meelega parandamata, et moni test ebaonnestuks ka.
+	// Lisaks oli huvitav naha, et testide tegemisest oli ka kasu :)
+	@Test
+	public void testAddItemWithZeroQuantity() {
+		PurchaseInfoTableModel model = new PurchaseInfoTableModel();
+		model.addItem(new SoldItem(item1, 0));
+		if (model.getRowCount() > 0) {
+			fail("Item with zero quantity was added.");
+		}
+	}
+	
 	@Test
 	public void testColumnValues() {
 		PurchaseInfoTableModel model = new PurchaseInfoTableModel();
