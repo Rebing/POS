@@ -41,16 +41,21 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 	 * Will return true if new item is created. Otherwise will return false.
 	 * @param stockItem
 	 */
-	public boolean addItem(final StockItem stockItem) {
-		Session session = HibernateUtil.currentSession();
-		session.beginTransaction();
+	public boolean addItem(final StockItem stockItem, boolean saveToDatabase) {
+		Session session = null;
+		if (saveToDatabase) {
+			session = HibernateUtil.currentSession();
+			session.beginTransaction();
+		}
 		try {
 			StockItem item = getItemById(stockItem.getId());
 			item.setQuantity(item.getQuantity() + stockItem.getQuantity());
 			log.debug("Found existing item " + stockItem.getName()
 					+ " increased quantity by " + stockItem.getQuantity());
-			session.save(item);
-			session.getTransaction().commit();
+			if (saveToDatabase) {
+				session.save(item);
+				session.getTransaction().commit();
+			}
 			fireTableDataChanged();
 			return false;
 		}
@@ -58,8 +63,10 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 			rows.add(stockItem);
 			log.debug("Added " + stockItem.getName()
 					+ " quantity of " + stockItem.getQuantity());
-			session.save(stockItem);
-			session.getTransaction().commit();
+			if (saveToDatabase) {
+				session.save(stockItem);
+				session.getTransaction().commit();
+			}
 			fireTableDataChanged();
 			return true;
 		}
