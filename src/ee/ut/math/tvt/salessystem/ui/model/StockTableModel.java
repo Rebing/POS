@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.util.HibernateUtil;
 
 /**
@@ -40,19 +41,17 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 	 * same id, then existing item's quantity will be increased.
 	 * Will return true if new item is created. Otherwise will return false.
 	 * @param stockItem
+	 * @throws VerificationFailedException 
 	 */
-	public boolean addItem(final StockItem stockItem, boolean saveToDatabase) {
-		Session session = null;
-		if (saveToDatabase) {
-			session = HibernateUtil.currentSession();
-			session.beginTransaction();
-		}
+	public boolean addItem(final StockItem stockItem, boolean saveToDatabase) throws VerificationFailedException {
 		try {
 			StockItem item = getItemById(stockItem.getId());
 			item.setQuantity(item.getQuantity() + stockItem.getQuantity());
 			log.debug("Found existing item " + stockItem.getName()
 					+ " increased quantity by " + stockItem.getQuantity());
 			if (saveToDatabase) {
+				Session session = HibernateUtil.currentSession();
+				session.beginTransaction();
 				session.save(item);
 				session.getTransaction().commit();
 			}
@@ -60,15 +59,23 @@ public class StockTableModel extends SalesSystemTableModel<StockItem> {
 			return false;
 		}
 		catch (NoSuchElementException e) {
-			rows.add(stockItem);
-			log.debug("Added " + stockItem.getName()
-					+ " quantity of " + stockItem.getQuantity());
-			if (saveToDatabase) {
-				session.save(stockItem);
-				session.getTransaction().commit();
+			try {
+				getItemByName(stockItem.getName());
+				throw new VerificationFailedException("Item with same name exists already");
 			}
-			fireTableDataChanged();
-			return true;
+			catch (NoSuchElementException ex) {
+				rows.add(stockItem);
+				log.debug("Added " + stockItem.getName()
+						+ " quantity of " + stockItem.getQuantity());
+				if (saveToDatabase) {
+					Session session = HibernateUtil.currentSession();
+					session.beginTransaction();
+					session.save(stockItem);
+					session.getTransaction().commit();
+				}
+				fireTableDataChanged();
+				return true;
+			}
 		}
 	}
 	

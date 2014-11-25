@@ -24,6 +24,7 @@ import javax.swing.WindowConstants;
 import javax.swing.table.JTableHeader;
 
 import ee.ut.math.tvt.salessystem.domain.data.StockItem;
+import ee.ut.math.tvt.salessystem.domain.exception.VerificationFailedException;
 import ee.ut.math.tvt.salessystem.ui.model.SalesSystemModel;
 
 
@@ -185,6 +186,10 @@ public class StockTab {
 	 catch (NumberFormatException e) {
 		 JOptionPane.showMessageDialog(frame, "Id, quantity and price must be numbers.",
      			"Invalid entry", JOptionPane.WARNING_MESSAGE);
+	 }
+	 catch (VerificationFailedException e) {
+		 JOptionPane.showMessageDialog(frame, e.getMessage(),
+	     			"Invalid entry", JOptionPane.WARNING_MESSAGE);
 	 }
  }
  
