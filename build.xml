@@ -109,9 +109,7 @@
             source="1.7"
             includeantruntime="false"
         >
-			<classpath>
-				<pathelement path="${build.classes.dir}" />
-			</classpath>
+			<classpath refid="test.classpath"/>
 		</javac>
 	</target>
 	
