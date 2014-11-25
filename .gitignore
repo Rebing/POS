@@ -1,4 +1,5 @@
 *target*
 *.jar
 *.class
-!lib/*
+!*/lib/*
+!*/lib/*/*
