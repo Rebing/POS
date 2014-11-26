@@ -1,0 +1,3 @@
+Arvatavasti sain midagi valesti aru, sest List<T> rows eemaldamisest tulenevad muudatused ei tee koodi kuidagi ilusamaks.
+
+Aga muidu peaks asi toimima
